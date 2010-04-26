@@ -1,3 +1,10 @@
+/*
+
+DEPENDS ON:
+   - cycle        http://jquery.malsup.com/cycle/
+   - jcarousel    http://sorgalla.com/jcarousel/
+
+*/
 (function($) {
    var carouselen = null
 	var container = null
