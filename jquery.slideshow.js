@@ -29,6 +29,14 @@ DEPENDS ON:
    };
    
    function init (opts) {
+      container = $(opts['bigElm']).cycle({
+         fx:      opts['fx'],
+         timeout: parseInt(opts['auto']),
+         prev:    opts['bigPrev'],
+         next:    opts['bigNext'],
+         after:   onAfter
+      });
+      
       if (opts['thumbsElm']) { // With or without thumbnails
          $(opts['thumbsElm']).jcarousel({
             auto: 0,
@@ -38,20 +46,14 @@ DEPENDS ON:
          });
          
          $(opts['thumbsElm']).children().each(function(i,data) { 
-            $(data).find("a").click(function() { 
+            $(data).click(function() { 
                container.cycle(i); 
                return false; 
             });
          });
       };
       
-      container = $(opts['bigElm']).cycle({
-         fx:      opts['fx'],
-         timeout: parseInt(opts['auto']),
-         prev:    opts['bigPrev'],
-         next:    opts['bigNext'],
-         after:   onAfter
-      });
+
       
       function mycarousel_initCallback(carousel) {
          carouselen = carousel         
