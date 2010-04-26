@@ -54,17 +54,20 @@ DEPENDS ON:
       });
       
       function mycarousel_initCallback(carousel) {
-         carouselen = carousel
-
-          jQuery(opts['thumbNext']).bind('click', function() {
-            carousel.next();
-            return false;
-          });
-
-          jQuery(opts['thumbPrev']).bind('click', function() {
-            carousel.prev();
-            return false;
-          });
+         carouselen = carousel         
+         if (opts['thumbNext']) {
+            jQuery(opts['thumbNext']).bind('click', function() {
+              carousel.next();
+              return false;
+            });
+         };
+         if (opts['thumbPrev']) {
+            jQuery(opts['thumbPrev']).bind('click', function() {
+              carousel.prev();
+              return false;
+            });
+         };
+         
 		};
       
 
