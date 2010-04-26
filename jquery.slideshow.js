@@ -5,36 +5,42 @@
    jQuery.slideshow = function(options) {
       var defaults = {
          bigElm:     '#showroom_box_2_entries',
-         thumbsElm:  '#showroom_box_2_thumb_entries',
-         auto:       '0',
+         thumbsElm:  null,
+         auto:       0, //milliseconds between slide transitions (0 to disable auto advance)
          fx:         'scrollHorz',
          bigPrev:    '.BigScrollLeft',
          bigNext:    '.BigScrollRight',
-         thumbNext:  '#showroom_box_2_right_scroll_link',
-         thumbPrev:  '#showroom_box_2_left_scroll_link'
+         thumbNext:  null,
+         thumbPrev:  null
       };
       
       // Extend our default options with those provided.
       var opts = $.extend(defaults, options);
-      // Our plugin implementation code goes here.
 
-      init(opts)
+      init(opts) // do the magic
       
    };
    
    function init (opts) {
-      console.log("detta är init")
-      console.log(opts)
-      $(opts['thumbsElm']).jcarousel({
-         auto: opts['auto'],
-         initCallback: mycarousel_initCallback,
-         buttonNextHTML: null,
-         buttonPrevHTML: null
-      });
-
+      if (opts['thumbsElm']) { // With or without thumbnails
+         $(opts['thumbsElm']).jcarousel({
+            auto: 0,
+            initCallback: mycarousel_initCallback,
+            buttonNextHTML: null,
+            buttonPrevHTML: null
+         });
+         
+         $(opts['thumbsElm']).children().each(function(i,data) { 
+            $(data).find("a").click(function() { 
+               container.cycle(i); 
+               return false; 
+            });
+         });
+      };
+      
       container = $(opts['bigElm']).cycle({
          fx:      opts['fx'],
-         timeout: 0,
+         timeout: parseInt(opts['auto']),
          prev:    opts['bigPrev'],
          next:    opts['bigNext'],
          after:   onAfter
@@ -54,26 +60,25 @@
           });
 		};
       
-      $(opts['thumbsElm']).children().each(function(i,data) { 
-         // create input 
-         $(data).find("a").click(function() { 
-            // cycle to the corresponding slide 
-            container.cycle(i); 
-            return false; 
-         });
-      });
-      
-      function onAfter(curr, next, opts) {
-         var index = opts.currSlide;
 
-         $(".Active").removeClass("Active")
-         $(".jcarousel-item-"+(index+1)).addClass("Active")
-         //console.log($j("jcarousel-item-"+(index+1)))
-         if (carouselen) {
-            carouselen.scroll(index-1)
-         } else {
-            console.log("ingen karusell fanns")
+      
+      function onAfter(curr, next, opts2) {
+
+         
+         if (opts['thumbsElm']) { // With or without thumbnails
+            var index = opts2.currSlide;
+            
+            $(".Active").removeClass("Active")
+            
+            
+            $(".jcarousel-item-"+(index+1)).addClass("Active")
+
+            if (carouselen) {
+               carouselen.scroll(index-1)
+            }
+            
          }
+
       }
    }
 })(jQuery);
