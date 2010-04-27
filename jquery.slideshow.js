@@ -13,7 +13,7 @@ DEPENDS ON:
       var defaults = {
          bigElm:     '#showroom_box_2_entries',
          thumbsElm:  null,
-         interval:   400, //milliseconds between slide transitions (0 to disable auto advance)
+         interval:   1000, //milliseconds between slide transitions
          autoStart:  false,
          fx:         'scrollHorz',
          bigPrev:    '.BigScrollLeft',
