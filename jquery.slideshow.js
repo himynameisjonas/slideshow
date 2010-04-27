@@ -13,13 +13,15 @@ DEPENDS ON:
       var defaults = {
          bigElm:     '#showroom_box_2_entries',
          thumbsElm:  null,
+         thumbCycle: 0,
          interval:   1000, //milliseconds between slide transitions
          autoStart:  false,
          fx:         'scrollHorz',
          bigPrev:    '.BigScrollLeft',
          bigNext:    '.BigScrollRight',
          thumbNext:  null,
-         thumbPrev:  null
+         thumbPrev:  null,
+         toggle:     null,
       };
       
       // Extend our default options with those provided.
@@ -37,12 +39,14 @@ DEPENDS ON:
    function init (opts) {
       
       if (opts['thumbsElm']) { // With or without thumbnails
-         $(opts['thumbsElm']).jcarousel({
-            auto: 0,
-            initCallback: mycarousel_initCallback,
-            buttonNextHTML: null,
-            buttonPrevHTML: null
-         });
+         if (opts['thumbCycle'] == 1) {
+            $(opts['thumbsElm']).jcarousel({
+               auto: 0,
+               initCallback: mycarousel_initCallback,
+               buttonNextHTML: null,
+               buttonPrevHTML: null
+            });
+         };
          
          $(opts['thumbsElm']).children().each(function(i,data) { 
             $(data).click(function() { 
@@ -88,13 +92,25 @@ DEPENDS ON:
             var nextSlide = opts2.nextSlide+1;
             
             $(".Active").removeClass("Active")
-
-            $(".jcarousel-item-"+nextSlide).addClass("Active")
+            
+            if (opts['tumbCycle']) {
+               $(".jcarousel-item-"+nextSlide).addClass("Active")
+            } else {
+               $($(opts['thumbsElm']).children()[nextSlide-1]).addClass("Active")
+            };
 
             if (carouselen) {
                carouselen.scroll(nextSlide)
             } 
          }
       }
+      
+      if (opts['toggle']) {
+         $(opts['toggle']).click(function(){
+   			container.cycle("toggle")
+   			return false;
+   		})
+      };
+      
    }
 })(jQuery);
