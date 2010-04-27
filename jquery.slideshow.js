@@ -13,7 +13,8 @@ DEPENDS ON:
       var defaults = {
          bigElm:     '#showroom_box_2_entries',
          thumbsElm:  null,
-         auto:       0, //milliseconds between slide transitions (0 to disable auto advance)
+         interval:   400, //milliseconds between slide transitions (0 to disable auto advance)
+         autoStart:  false,
          fx:         'scrollHorz',
          bigPrev:    '.BigScrollLeft',
          bigNext:    '.BigScrollRight',
@@ -26,16 +27,16 @@ DEPENDS ON:
 
       init(opts) // do the magic
       
+      if (opts['thumbsElm']) { // set correct element to "active" on start
+         $(".Active").removeClass("Active")
+         $(".jcarousel-item-"+1).addClass("Active")         
+      }
+
+      
    };
    
    function init (opts) {
-      container = $(opts['bigElm']).cycle({
-         fx:      opts['fx'],
-         timeout: parseInt(opts['auto']),
-         prev:    opts['bigPrev'],
-         next:    opts['bigNext'],
-         after:   onAfter
-      });
+      
       
       if (opts['thumbsElm']) { // With or without thumbnails
          $(opts['thumbsElm']).jcarousel({
@@ -53,7 +54,18 @@ DEPENDS ON:
          });
       };
       
-
+      container = $(opts['bigElm']).cycle({
+         fx:      opts['fx'],
+         timeout: parseInt(opts['interval']),
+         prev:    opts['bigPrev'],
+         next:    opts['bigNext'],
+         before:   onBefore
+      });
+      
+      // Pause the cycle if not auto start
+      if (!opts['autoStart']) {
+         container.cycle("pause")
+      };
       
       function mycarousel_initCallback(carousel) {
          carouselen = carousel         
@@ -74,19 +86,17 @@ DEPENDS ON:
       
 
       
-      function onAfter(curr, next, opts2) {
-
-         
+      function onBefore(curr, next, opts2) {
          if (opts['thumbsElm']) { // With or without thumbnails
-            var index = opts2.currSlide;
+            
+            var nextSlide = opts2.nextSlide+1;
             
             $(".Active").removeClass("Active")
-            
-            
-            $(".jcarousel-item-"+(index+1)).addClass("Active")
+
+            $(".jcarousel-item-"+nextSlide).addClass("Active")
 
             if (carouselen) {
-               carouselen.scroll(index-1)
+               carouselen.scroll(nextSlide)
             }
             
          }
