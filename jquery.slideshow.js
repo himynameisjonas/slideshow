@@ -31,12 +31,10 @@ DEPENDS ON:
          $(".Active").removeClass("Active")
          $(".jcarousel-item-"+1).addClass("Active")         
       }
-
       
    };
    
    function init (opts) {
-      
       
       if (opts['thumbsElm']) { // With or without thumbnails
          $(opts['thumbsElm']).jcarousel({
@@ -82,9 +80,7 @@ DEPENDS ON:
             });
          };
          
-		};
-      
-
+      };
       
       function onBefore(curr, next, opts2) {
          if (opts['thumbsElm']) { // With or without thumbnails
@@ -97,10 +93,8 @@ DEPENDS ON:
 
             if (carouselen) {
                carouselen.scroll(nextSlide)
-            }
-            
+            } 
          }
-
       }
    }
 })(jQuery);
