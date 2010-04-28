@@ -11,18 +11,29 @@ DEPENDS ON:
    
    jQuery.slideshow = function(options) {
       var defaults = {
-         bigElm:     '#showroom_box_2_entries',
-         thumbsElm:  null,
-         thumbCycle: false,
-         interval:   1000, //milliseconds between slide transitions
-         autoStart:  false,
-         fx:         'scrollHorz',
-         bigPrev:    '.BigScrollLeft',
-         bigNext:    '.BigScrollRight',
-         thumbNext:  null,
-         thumbPrev:  null,
-         toggle:     null
+         bigElm:     '',           // element containing big slide elements
+         thumbsElm:  null,         // element containing thumbs elements
+         thumbCycle: false,        // cycle/carousel on 'thumbs'
+         interval:   1000,         // milliseconds between slide transitions
+         autoStart:  false,        // auto start the cycle
+         fx:         'scrollHorz', // effect, see below for alternatives
+         bigPrev:    '',           // element for previous-button
+         bigNext:    '',           // element for next-button
+         thumbNext:  null,         // element for next-thumb-button
+         thumbPrev:  null,         // element for previous-thumb-button
+         toggle:     null          // element for toggle autoplay
       };
+      
+      /*
+      EFFECTS:
+      
+      blindX, blindY, blindZ, cover, curtainX, curtainY, fade,
+      fadeZoom, growX, growY, none, scrollUp, scrollDown, scrollLeft,
+      scrollRight, scrollHorz, scrollVert, shuffle, slideX, slideY,
+      toss, turnUp, turnDown, turnLeft, turnRight, uncover, wipe, zoom
+      
+      */
+      
       
       // Extend our default options with those provided.
       var opts = $.extend(defaults, options);
