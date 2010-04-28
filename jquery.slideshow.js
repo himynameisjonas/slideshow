@@ -21,7 +21,7 @@ DEPENDS ON:
          bigNext:    '.BigScrollRight',
          thumbNext:  null,
          thumbPrev:  null,
-         toggle:     null,
+         toggle:     null
       };
       
       // Extend our default options with those provided.
