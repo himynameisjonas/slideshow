@@ -21,7 +21,8 @@ DEPENDS ON:
          bigNext:       '',            // element for next-button
          thumbNext:     null,          // element for next-thumb-button
          thumbPrev:     null,          // element for previous-thumb-button
-         toggle:        null           // element for toggle autoplay
+         toggle:        null,          // element for toggle autoplay
+         thumbsVisible: null           // number of thumbs visible at the same time
       };
       
       /*
@@ -55,7 +56,10 @@ DEPENDS ON:
                auto: 0,
                initCallback: mycarousel_initCallback,
                buttonNextHTML: null,
-               buttonPrevHTML: null
+               buttonPrevHTML: null,
+               wrap: "both",
+               visible: opts['thumbsVisible'],
+               easing: "swing"
             });
          };
          
