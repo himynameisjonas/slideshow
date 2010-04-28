@@ -7,7 +7,7 @@ DEPENDS ON:
 */
 (function($) {
    var carouselen = null
-	var container = null
+   var container = null
    
    jQuery.slideshow = function(options) {
       var defaults = {
@@ -59,8 +59,8 @@ DEPENDS ON:
             });
          };
          
-         $(opts['thumbsElm']).children().each(function(i,data) { 
-            $(data).click(function() { 
+         $(opts['thumbsElm']).children().each(function(i,data) {
+            $(data).click(function() {
                container.cycle(i); 
                return false; 
             });
@@ -119,10 +119,9 @@ DEPENDS ON:
       if (opts['toggle']) {
          $(opts['toggle']).click(function(){
             container.cycle("next")
-   			container.cycle("toggle")
-   			return false;
-   		})
-      };
-      
+            container.cycle("toggle")
+            return false;
+         })
+      }; 
    }
 })(jQuery);
