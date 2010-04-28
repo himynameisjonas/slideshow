@@ -13,7 +13,7 @@ DEPENDS ON:
       var defaults = {
          bigElm:     '#showroom_box_2_entries',
          thumbsElm:  null,
-         thumbCycle: 0,
+         thumbCycle: false,
          interval:   1000, //milliseconds between slide transitions
          autoStart:  false,
          fx:         'scrollHorz',
@@ -39,7 +39,7 @@ DEPENDS ON:
    function init (opts) {
       
       if (opts['thumbsElm']) { // With or without thumbnails
-         if (opts['thumbCycle'] == 1) {
+         if (opts['thumbCycle']) {
             $(opts['thumbsElm']).jcarousel({
                auto: 0,
                initCallback: mycarousel_initCallback,
@@ -107,6 +107,7 @@ DEPENDS ON:
       
       if (opts['toggle']) {
          $(opts['toggle']).click(function(){
+            container.cycle("next")
    			container.cycle("toggle")
    			return false;
    		})
