@@ -31,7 +31,7 @@ DEPENDS ON:
       
       if (opts['thumbsElm']) { // set correct element to "active" on start
          $(".Active").removeClass("Active")
-         $(".jcarousel-item-"+1).addClass("Active")         
+         $($(opts['thumbsElm']).children()[0]).addClass("Active")
       }
       
    };
