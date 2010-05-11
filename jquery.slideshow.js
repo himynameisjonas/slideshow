@@ -1,5 +1,4 @@
 /*
-
 DEPENDS ON:
    - cycle        http://jquery.malsup.com/cycle/
    - jcarousel    http://sorgalla.com/jcarousel/
@@ -95,17 +94,33 @@ DEPENDS ON:
       function mycarousel_initCallback(carousel) {
          that.carouselen = carousel         
          if (that.opts['thumbNext']) {
-            jQuery(that.opts['thumbNext']).bind('click', function() {
-              carousel.next();
-              return false;
-            });
+            if ($(that.opts['thumbNext']).size() > 1) {                       
+               $(that.opts['thumbsElm']).parentsUntil(".BoxSecond").find(that.opts['thumbNext']).bind('click', function() {
+                 carousel.next();
+                 return false;
+               });
+            } else {
+               $(that.opts['thumbNext']).bind('click', function() {
+                 carousel.next();
+                 return false;
+               });
+            }
          };
+         
          if (that.opts['thumbPrev']) {
-            jQuery(that.opts['thumbPrev']).bind('click', function() {
-              carousel.prev();
-              return false;
-            });
-         };
+            if ($(that.opts['thumbPrev']).size() > 1) {
+               $(that.opts['thumbsElm']).parentsUntil(".BoxSecond").find(that.opts['thumbPrev']).bind('click', function() {
+                 carousel.prev();
+                 return false;
+               });
+            } else {
+               $(that.opts['thumbPrev']).bind('click', function() {
+                 carousel.prev();
+                 return false;
+               });
+            }
+
+         }
          
       };
       
