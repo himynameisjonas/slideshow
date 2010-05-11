@@ -6,9 +6,6 @@ DEPENDS ON:
 
 */
 (function($) {
-   var carouselen = null
-   var container = null
-   
    jQuery.slideshow = function(options) {
       var defaults = {
          bigElm:        '',            // element containing big slide elements
@@ -38,62 +35,73 @@ DEPENDS ON:
       
       // Extend our default options with those provided.
       var opts = $.extend(defaults, options);
-
-      init(opts) // do the magic
       
-      if (opts['thumbsElm']) { // set correct element to "active" on start
-         $(".Active").removeClass("Active")
-         $($(opts['thumbsElm']).children()[0]).addClass("Active")
-      }
+      $(opts['bigElm']).each(function(i,bigElement){
+         thumbElement = $(opts['thumbsElm'])[i];
+         new Slideshow(opts,thumbElement,bigElement);
+      })
       
    };
    
-   function init (opts) {
+   
+   function Slideshow (opts,thumb,big) {
+      var that = this;
+      this.opts = jQuery.extend(true, {}, opts);
+      this.opts['thumbsElm'] = thumb;
+      this.opts['bigElm'] = big;
+      //console.log(this.opts['thumbsElm'])
       
-      if (opts['thumbsElm']) { // With or without thumbnails
-         if (opts['thumbCycle']) {
-            $(opts['thumbsElm']).jcarousel({
+      
+      this.carouselen = null
+      this.container = null
+      
+      
+      if (that.opts['thumbsElm']) { // With or without thumbnails
+         if (that.opts['thumbCycle']) {
+            $(that.opts['thumbsElm']).jcarousel({
                auto: 0,
                initCallback: mycarousel_initCallback,
                buttonNextHTML: null,
                buttonPrevHTML: null,
                wrap: "both",
-               visible: opts['thumbsVisible'],
+               visible: that.opts['thumbsVisible'],
                easing: "swing"
             });
          };
          
-         $(opts['thumbsElm']).children().each(function(i,data) {
+         $(that.opts['thumbsElm']).children().each(function(i,data) {
             $(data).click(function() {
-               container.cycle(i); 
+               that.container.cycle(i); 
                return false; 
             });
          });
       };
       
-      container = $(opts['bigElm']).cycle({
-         fx:      opts['fx'],
-         timeout: parseInt(opts['interval']),
-         prev:    opts['bigPrev'],
-         next:    opts['bigNext'],
+      
+      that.container = $(that.opts['bigElm']).cycle({
+         fx:      that.opts['fx'],
+         timeout: parseInt(that.opts['interval']),
+         prev:    that.opts['bigPrev'],
+         next:    that.opts['bigNext'],
          before:   onBefore
       });
       
       // Pause the cycle if not auto start
-      if (!opts['autoStart']) {
-         container.cycle("pause")
+      if (!that.opts['autoStart']) {
+         that.container.cycle("pause")
       };
       
+      
       function mycarousel_initCallback(carousel) {
-         carouselen = carousel         
-         if (opts['thumbNext']) {
-            jQuery(opts['thumbNext']).bind('click', function() {
+         that.carouselen = carousel         
+         if (that.opts['thumbNext']) {
+            jQuery(that.opts['thumbNext']).bind('click', function() {
               carousel.next();
               return false;
             });
          };
-         if (opts['thumbPrev']) {
-            jQuery(opts['thumbPrev']).bind('click', function() {
+         if (that.opts['thumbPrev']) {
+            jQuery(that.opts['thumbPrev']).bind('click', function() {
               carousel.prev();
               return false;
             });
@@ -102,30 +110,34 @@ DEPENDS ON:
       };
       
       function onBefore(curr, next, opts2) {
-         if (opts['thumbsElm']) { // With or without thumbnails
+         if (that.opts['thumbsElm']) { // With or without thumbnails
             
             var nextSlide = opts2.nextSlide+1;
             
-            $(".Active").removeClass("Active")
+            $(that.opts['thumbsElm']).find(".Active").removeClass("Active")
             
-            if (opts['tumbCycle']) {
-               $(".jcarousel-item-"+nextSlide).addClass("Active")
-            } else {
-               $($(opts['thumbsElm']).children()[nextSlide-1]).addClass("Active")
-            };
+            $($(that.opts['thumbsElm']).children()[nextSlide-1]).addClass("Active")
 
-            if (carouselen) {
-               carouselen.scroll(nextSlide)
+            if (that.carouselen) {
+               that.carouselen.scroll(nextSlide)
             } 
          }
       }
       
-      if (opts['toggle']) {
-         $(opts['toggle']).click(function(){
-            container.cycle("next")
-            container.cycle("toggle")
+      
+      if (that.opts['toggle']) {
+         $(that.opts['toggle']).click(function(){
+            that.container.cycle("next")
+            that.container.cycle("toggle")
             return false;
          })
-      }; 
+      };
+      
+      if (that.opts['thumbsElm']) { // set correct element to "active" on start
+         $(that.opts['thumbsElm']).find(".Active").removeClass("Active")
+         $($(that.opts['thumbsElm']).children()[0]).addClass("Active")
+      }
+      
    }
+   
 })(jQuery);
