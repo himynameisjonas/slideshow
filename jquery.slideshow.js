@@ -1,5 +1,9 @@
 /*
-DEPENDS ON:
+
+JQUERY SLIDESHOW PLUGIN
+BY Jonas Forsberg - http://jonasforsberg.se
+
+DEPENDENCE:
    - cycle        http://jquery.malsup.com/cycle/
    - jcarousel    http://sorgalla.com/jcarousel/
 
@@ -7,19 +11,19 @@ DEPENDS ON:
 (function($) {
    jQuery.slideshow = function(options) {
       var defaults = {
-         bigElm:        '',            // element containing big slide elements
-         thumbsElm:     null,          // element containing thumbs elements
-         thumbCycle:    false,         // cycle/carousel on 'thumbs'
-         interval:      1000,          // milliseconds between slide transitions
-         autoStart:     false,         // auto start the cycle
-         fx:            'scrollHorz',  // effect, see below for alternatives
-         bigPrev:       '',            // element for previous-button
-         bigNext:       '',            // element for next-button
-         thumbNext:     null,          // element for next-thumb-button
-         thumbPrev:     null,          // element for previous-thumb-button
-         toggle:        null,          // element for toggle autoplay
-         thumbsVisible: null,          // number of thumbs visible at the same time
-         scrollCount:   1              // The number of thumb-items to scroll by
+         bigElm:        '.ShowroomEntries',  // element containing big slide elements
+         thumbsElm:     'ul.Thumbs',         // element containing thumbs elements
+         thumbCycle:    false,               // cycle/carousel on 'thumbs'
+         interval:      1000,                // milliseconds between slide transitions
+         autoStart:     false,               // auto start the cycle
+         fx:            'scrollHorz',        // effect, see below for alternatives
+         bigPrev:       ".BigScrollLeft",    // element for previous-button
+         bigNext:       ".BigScrollRight",   // element for next-button
+         thumbNext:     ".ScrollRight",      // element for next-thumb-button
+         thumbPrev:     ".ScrollLeft",       // element for previous-thumb-button
+         toggle:        null,                // element for toggle autoplay
+         thumbsVisible: null,                // number of thumbs visible at the same time
+         scrollCount:   1                    // The number of thumb-items to scroll by
       };
       
       /*
@@ -58,6 +62,7 @@ DEPENDS ON:
       
       if (that.opts['thumbsElm']) { // With or without thumbnails
          if (that.opts['thumbCycle']) {
+            $(that.opts['thumbsElm']).data('jcarousel',null)
             $(that.opts['thumbsElm']).jcarousel({
                auto: 0,
                initCallback: mycarousel_initCallback,
@@ -71,7 +76,7 @@ DEPENDS ON:
          };
          
          $(that.opts['thumbsElm']).children().each(function(i,data) {
-            $(data).click(function() {
+            $(data).unbind("click").click(function() {
                that.container.cycle(i); 
                return false; 
             });
@@ -79,7 +84,7 @@ DEPENDS ON:
       };
       
       
-      that.container = $(that.opts['bigElm']).cycle({
+      that.container = $(that.opts['bigElm']).cycle("destroy").cycle({
          fx:      that.opts['fx'],
          timeout: parseInt(that.opts['interval']),
          prev:    that.opts['bigPrev'],
@@ -92,17 +97,16 @@ DEPENDS ON:
          that.container.cycle("pause")
       };
       
-      
       function mycarousel_initCallback(carousel) {
          that.carouselen = carousel         
          if (that.opts['thumbNext']) {
             if ($(that.opts['thumbNext']).size() > 1) {                       
-               $(that.opts['thumbsElm']).parentsUntil(".BoxSecond").find(that.opts['thumbNext']).bind('click', function() {
+               $(that.opts['thumbsElm']).parentsUntil(".BoxSecond").find(that.opts['thumbNext']).unbind("click").bind('click', function() {
                  carousel.next();
                  return false;
                });
             } else {
-               $(that.opts['thumbNext']).bind('click', function() {
+               $(that.opts['thumbNext']).unbind("click").bind('click', function() {
                  carousel.next();
                  return false;
                });
@@ -111,12 +115,12 @@ DEPENDS ON:
          
          if (that.opts['thumbPrev']) {
             if ($(that.opts['thumbPrev']).size() > 1) {
-               $(that.opts['thumbsElm']).parentsUntil(".BoxSecond").find(that.opts['thumbPrev']).bind('click', function() {
+               $(that.opts['thumbsElm']).parentsUntil(".BoxSecond").find(that.opts['thumbPrev']).unbind("click").bind('click', function() {
                  carousel.prev();
                  return false;
                });
             } else {
-               $(that.opts['thumbPrev']).bind('click', function() {
+               $(that.opts['thumbPrev']).unbind("click").bind('click', function() {
                  carousel.prev();
                  return false;
                });
@@ -143,7 +147,7 @@ DEPENDS ON:
       
       
       if (that.opts['toggle']) {
-         $(that.opts['toggle']).click(function(){
+         $(that.opts['toggle']).unbind("click").click(function(){
             that.container.cycle("next")
             that.container.cycle("toggle")
             return false;
