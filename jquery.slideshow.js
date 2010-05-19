@@ -13,7 +13,7 @@ DEPENDENCE:
       var defaults = {
          bigElm:        '.ShowroomEntries',  // element containing big slide elements
          thumbsElm:     'ul.Thumbs',         // element containing thumbs elements
-         thumbCycle:    false,               // cycle/carousel on 'thumbs'
+         thumbCycle:    true,               // cycle/carousel on 'thumbs'
          interval:      1000,                // milliseconds between slide transitions
          autoStart:     false,               // auto start the cycle
          fx:            'scrollHorz',        // effect, see below for alternatives
