@@ -18,7 +18,8 @@ DEPENDS ON:
          thumbNext:     null,          // element for next-thumb-button
          thumbPrev:     null,          // element for previous-thumb-button
          toggle:        null,          // element for toggle autoplay
-         thumbsVisible: null           // number of thumbs visible at the same time
+         thumbsVisible: null,          // number of thumbs visible at the same time
+         scrollCount:   1              // The number of thumb-items to scroll by
       };
       
       /*
@@ -63,6 +64,7 @@ DEPENDS ON:
                buttonNextHTML: null,
                buttonPrevHTML: null,
                wrap: "both",
+               scroll: that.opts['scrollCount'],
                visible: that.opts['thumbsVisible'],
                easing: "swing"
             });
